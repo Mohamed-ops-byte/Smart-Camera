@@ -1,0 +1,56 @@
+services:
+  # Backend Laravel
+  laravel-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/app/database/database.sqlite
+    volumes:
+      - ./backend/storage:/app/storage
+    depends_on:
+      - python-service
+    networks:
+      - smart-camera
+
+  # Python AI Service
+  python-service:
+    build:
+      context: ./backend/python_services
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=true
+    volumes:
+      - ./backend/storage/app/faces:/app/faces
+    networks:
+      - smart-camera
+
+  # Frontend React
+  react-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000/api
+      - VITE_PYTHON_SERVICE_URL=http://localhost:5000/api
+    depends_on:
+      - laravel-backend
+    networks:
+      - smart-camera
+
+networks:
+  smart-camera:
+    driver: bridge

@@ -1,0 +1,61 @@
+# Backend Python Environment
+.env
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+ENV/
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+backend/storage/logs/*.log
+
+# Database
+database.sqlite
+*.db
+
+# Laravel specific
+backend/.env
+backend/.env.local
+backend/storage/
+backend/bootstrap/cache/
+backend/vendor/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Frontend build
+frontend/dist/
+frontend/.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+temp/
+tmp/
+*.tmp
+
+# Face encodings (large files)
+backend/models/
+backend/python_services/models/
